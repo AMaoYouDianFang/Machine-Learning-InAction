@@ -16,7 +16,7 @@ def createDataSet():
     #change to discrete values
     return dataSet, labels
 
-#计算给定数据集的信息熵
+#计算给定数据集的信息熵，
 def calcShannonEnt(dataSet):
     numEntries = len(dataSet) #计算数据集中实例的总数
     labelCounts = {}
@@ -35,7 +35,7 @@ def calcShannonEnt(dataSet):
 
 '''
 功能：根据特征划分数据集 （划分后会去掉这个特征的）
-内容：将对每个特征划分数 据集的结果计算一次信息熵，然后判断按照哪个特征划分数据集是最好的划分方式
+内容：将对每个特征划分数据集的结果计算一次信息熵，然后判断按照哪个特征划分数据集是最好的划分方式
 参数：待划分的数据集、axis 第几个特征、value这个特征的取值，返回满足这个条件的数据
 '''
 def splitDataSet(dataSet, axis, value):

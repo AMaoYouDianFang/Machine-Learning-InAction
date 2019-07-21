@@ -29,11 +29,11 @@ def loadDataSet(fileName):      #general function to parse tab -delimited floats
         labelMat.append(float(curLine[-1]))
     return dataMat,labelMat
 
-#通过阈值比较对数据进行分类的。 
+#函数将用于测试是否有某个值小于或者大于我们正在测试的阈值 通过阈值比较对数据进行分类的。 
 # 所有在阈值一边的数据会分到类别-1，而在另外一边的数据分到类别+1
 def stumpClassify(dataMatrix,dimen,threshVal,threshIneq):#just classify the data
     retArray = ones((shape(dataMatrix)[0],1)) #将返回数组的全部元素设置为1
-    if threshIneq == 'lt': #所有不满足不等式要求的元素设置为1
+    if threshIneq == 'lt': #所有不满足不等式要求的元素设置为1
         retArray[dataMatrix[:,dimen] <= threshVal] = -1.0
     else:
         retArray[dataMatrix[:,dimen] > threshVal] = -1.0
@@ -85,7 +85,7 @@ def buildStump(dataArr,classLabels,D, isPrint = True):
 上述算法会输出一个单层决策树的数组，因此首先需要建立一个新的Python表来对其进行存储。
 然后，得到数据集中的数据点的数目m，并建立一个列向量D。
 
-样本的权重都赋予了相等的值。在后 续的迭代中，AdaBoost算法会在增加错分数据的权重的同时，
+样本的权重都赋予了相等的值。在后续的迭代中，AdaBoost算法会在增加错分数据的权重的同时，
 降低正确分类数据的权重
 '''
 def adaBoostTrainDS(dataArr,classLabels,numIt=40, isPrint = True):

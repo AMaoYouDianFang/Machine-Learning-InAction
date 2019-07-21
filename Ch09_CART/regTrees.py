@@ -15,7 +15,7 @@ def loadDataSet(fileName):      #general function to parse tab -delimited floats
         dataMat.append(fltLine)
     return dataMat
 '''
-参数：数据集合、待切分的特征和该特 征的某个值。
+参数：数据集合、待切分的特征和该特征的某个值。
 在给定特征和特征值的情况下，该函数通过数组过滤方式将上述数据集合切分得到两个子集并返回。
 nonzero(a)  将对矩阵a的所有非零元素， 分别安装两个维度， 一次返回其在各维度上的目录值。
 如果 a=mat([ [1,0,0],                          
@@ -52,7 +52,7 @@ def linearSolve(dataSet):   #helper function used in two places
     if linalg.det(xTx) == 0.0: #矩阵的逆不存在也会造成程序异常
         raise NameError('This matrix is singular, cannot do inverse,\n\
         try increasing the second value of ops')
-    #方程的正规解
+    #方程的正规解,最小二乘法
     ws = xTx.I * (X.T * Y)
     return ws,X,Y
 
@@ -61,7 +61,9 @@ def modelLeaf(dataSet):#create linear model and return coeficients
     ws,X,Y = linearSolve(dataSet)
     return ws
 
-#计算在给定的数据集上计算误差
+#可以在给定的数据集上计算误差。与regErr() 类似， 
+#会被 chooseBestSplit() 调用来找到最佳的切分。 该函数在数据集上调用 linearSolve()，
+#之后返回yHat和Y之间的平方误差。
 def modelErr(dataSet):
     ws,X,Y = linearSolve(dataSet)
     yHat = X * ws
@@ -77,7 +79,7 @@ def chooseBestSplit(dataSet, leafType=regLeaf, errType=regErr, ops=(1,4)):
     #ops用户指定的参数，用于控制函数的停止时机。其中变量tolS是容许的误差下降值，tolN是切分的最少样本数
     tolS = ops[0]; tolN = ops[1]
     #if all the target variables are the same value: quit and return value
-    #  统计不同剩余特征值的数目（label的取值个数）。如果该数目为1，那么就不需要再切分而直接返回
+    #统计不同剩余特征值的数目（label的取值个数）。如果该数目为1，那么就不需要再切分而直接返回
     if len(set(dataSet[:,-1].T.tolist()[0])) == 1: #exit cond 1
         return None, leafType(dataSet) #leafType(dataSet)是返回数据集label的平局值
     m,n = shape(dataSet) #计算当前数据集的大小
